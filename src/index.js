@@ -33,6 +33,10 @@ const {cpf} = request.params;
 
 const customer = customers.find((customer)=>customer.cpf === cpf);
 
+if(!customer){
+    return response.status(400).json({error:"customer not found"});
+}
+
 return response.status(200).json(customer.statement);
 
 });
