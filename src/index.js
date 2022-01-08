@@ -13,19 +13,24 @@ function verifyIfExistsAccountCpf(request,response,next){
     //const {cpf} = request.params;
 
 const customer = customers.find((customer)=>customer.cpf === cpf);
-
-
 if(!customer){
     return response.status(400).json({error:"customer not found"});
 }
 request.customer=customer;
 
-
 return next();
-
-
 }
 
+function getBalalce(statement){
+const balanced= statement.reduce((acc,operation)=>{
+    if(operation.type==='credit'){
+        return acc+operation.account;
+    }else{
+        return acc- operation.amount;
+    }
+},0)
+return balance;
+}
 
 
 
@@ -75,7 +80,14 @@ return response.status(201).json()
 
 })
 
+app.post("/withdraw",verifyIfExistsAccountCpf,(request,response)=>{
+const {amount}= request.body;
+const {customer}=request;
+const balance= getBalalce(customer.statement);
 
+
+
+})
 
 
 
