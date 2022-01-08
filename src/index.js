@@ -22,7 +22,7 @@ return next();
 }
 
 function getBalalce(statement){
-const balanced= statement.reduce((acc,operation)=>{
+const balance= statement.reduce((acc,operation)=>{
     if(operation.type==='credit'){
         return acc+operation.account;
     }else{
@@ -85,7 +85,19 @@ const {amount}= request.body;
 const {customer}=request;
 const balance= getBalalce(customer.statement);
 
+if(balance < amount){
+    return response.status(400).json({error:"insufficient funds"})
+}
 
+const statementOperation={
+    amount,
+    created_at: new Date(),
+    type:"debit"
+};
+
+customer.statement.push(statementOperation);
+
+return response.status(200).json();
 
 })
 
