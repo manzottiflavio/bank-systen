@@ -101,6 +101,15 @@ return response.status(200).json();
 
 })
 
+app.get("/statement/:date",verifyIfExistsAccountCpf, (request,response)=>{
+    const {customer}=request;
+    const {date}=request.query;
 
+    const dateFormat=new Date(date + "00:00");
+
+    const statement=customer.statement.filter((statement)=>statement.created_at.toDateString()===new Date(dateFormat).toDateString());
+    return response.status(200).json(customer.statement);
+    
+    });
 
 app.listen(8888);
