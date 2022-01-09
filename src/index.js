@@ -112,4 +112,21 @@ app.get("/statement/:date",verifyIfExistsAccountCpf, (request,response)=>{
     
     });
 
+app.put("/account",verifyIfExistsAccountCpf, (request,response)=>{
+    const {name}=request.body;
+    const {customer}=request;
+    customer.name=name;
+
+    return response.status(201).send();
+})
+
+
+app.get("/account",verifyIfExistsAccountCpf, (request,response)=>{
+    const {customer}=request;
+    return response.status(200).json(customer)
+})
+       
+
+
+
 app.listen(8888);
