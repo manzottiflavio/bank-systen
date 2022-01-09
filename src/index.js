@@ -113,7 +113,7 @@ app.get("/statement/:date",verifyIfExistsAccountCpf, (request,response)=>{
     });
 
 app.put("/account",verifyIfExistsAccountCpf, (request,response)=>{
-    const {name}=request.body;
+    const {name} = request.body;
     const {customer}=request;
     customer.name=name;
 
