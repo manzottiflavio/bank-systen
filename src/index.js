@@ -22,9 +22,9 @@ function verifyIfExistsAccountCpf(request,response,next){
 }
 
 function getBalance(statement){
-    const balance= statement.reduce((acc,operation)=>{
-        if(operation.type==='credit'){
-            return acc+operation.account;
+    const balance = statement.reduce((acc, operation)=>{
+        if(operation.type === 'credit'){
+            return acc + operation.amount;
         }else{
             return acc-operation.amount;
         }
@@ -138,8 +138,13 @@ app.post("/account",(request,response)=>{
     app.get("/balance",verifyIfExistsAccountCpf, (request,response)=>{
         const {customer}=request;
         const balance = getBalance(customer.statement);
-      
-        return response.json(balance);
+      if(balance === null){
+          return response.json("error")
+      }else{
+        return response.json(balance)
+      };
+
+       
         
     });
     
